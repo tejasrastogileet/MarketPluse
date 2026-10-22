@@ -1,0 +1,33 @@
+
+# --- Extraction ---
+# yfinance pinned above 0.2.x: older releases fail against Yahoo's current
+# chart API with a JSONDecodeError on every ticker.
+yfinance==1.5.1
+fredapi==0.5.2
+pandas==2.2.2
+requests==2.32.3
+pandas_market_calendars==5.4.0
+
+# --- Database / Load ---
+# SQLAlchemy 2.0.30 and psycopg2-binary 2.9.9 both fail to install/import on
+# Python 3.13 (no cp313 wheel for psycopg2-binary; SQLAlchemy 2.0.30 hits a
+# FastIntFlag TypeError on import). Bumped past both.
+SQLAlchemy==2.0.51
+psycopg2-binary==2.9.12
+python-dotenv==1.0.1
+
+# --- Transformation ---
+dbt-core==1.8.3
+dbt-postgres==1.8.2
+
+# --- Orchestration (Airflow installed separately via its own constraints file - see airflow/README.md) ---
+
+# --- Dashboard ---
+streamlit==1.36.0
+plotly==5.22.0
+
+# --- Testing / Quality ---
+pytest==8.2.2
+great-expectations==0.18.19
+ruff==0.5.0
+plotly
