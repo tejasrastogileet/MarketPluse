@@ -1,0 +1,16 @@
+# Minimal requirements for Streamlit Community Cloud - deliberately excludes
+# dbt-core/dbt-postgres and Airflow, which the dashboard never imports. Point
+# Streamlit Cloud's "requirements file" setting at this path rather than the
+# repo-root requirements.txt to keep the deployed app's build fast and its
+# dependency surface small.
+streamlit==1.59.2
+plotly==5.22.0
+pandas==2.2.2
+SQLAlchemy==2.0.51
+# psycopg2-binary bundles its own statically-linked libssl/libpq, which can
+# collide with the ones already loaded in Streamlit Cloud's container and
+# crash the whole process with a segfault (not a catchable Python
+# exception). Building from source against the system libpq (see
+# packages.txt: libpq-dev, gcc) avoids the conflict.
+psycopg2==2.9.10
+python-dotenv==1.0.1
