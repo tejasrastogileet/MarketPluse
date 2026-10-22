@@ -1,0 +1,21 @@
+ticker,company_name,sector
+AAPL,Apple Inc.,Technology
+MSFT,Microsoft Corporation,Technology
+GOOGL,Alphabet Inc.,Technology
+AMZN,Amazon.com Inc.,Consumer Discretionary
+META,Meta Platforms Inc.,Technology
+NVDA,NVIDIA Corporation,Technology
+TSLA,Tesla Inc.,Consumer Discretionary
+JPM,JPMorgan Chase & Co.,Financials
+GS,Goldman Sachs Group Inc.,Financials
+V,Visa Inc.,Financials
+MA,Mastercard Inc.,Financials
+WMT,Walmart Inc.,Consumer Staples
+COST,Costco Wholesale Corporation,Consumer Staples
+XOM,Exxon Mobil Corporation,Energy
+CVX,Chevron Corporation,Energy
+UNH,UnitedHealth Group Inc.,Healthcare
+JNJ,Johnson & Johnson,Healthcare
+PFE,Pfizer Inc.,Healthcare
+BA,Boeing Company,Industrials
+DIS,Walt Disney Company,Communication Services

@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: stock_prices
+        description: Raw daily OHLCV bars landed by extraction/load.py, one row per ticker/trade_date.
+        loaded_at_field: loaded_at
+        freshness:
+          warn_after: {count: 30, period: hour}
+          error_after: {count: 48, period: hour}
+        columns:
+          - name: ticker
+            tests: [not_null]
+          - name: trade_date
+            tests: [not_null]
+
+      - name: macro_indicators
+        description: Raw macro-economic observations landed from FRED, one row per series_id/obs_date.
+        loaded_at_field: loaded_at
+        freshness:
+          warn_after: {count: 7, period: day}
+          error_after: {count: 14, period: day}
+        columns:
+          - name: series_id
+            tests: [not_null]
+          - name: obs_date
+            tests: [not_null]
+
+      - name: pipeline_runs
+        description: One row per pipeline execution (Airflow DAG run or GitHub Actions refresh), used by the dashboard's Pipeline Health view.

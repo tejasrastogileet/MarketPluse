@@ -1,0 +1,14 @@
+
+market_data_platform:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: ep-flat-cell-b5ly4vx3-pooler.c-7.us-east-2.aws.neon.tech
+      port: 5432
+      user: neondb_owner
+      password: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: neondb
+      schema: analytics
+      threads: 4
+      sslmode: require

@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: dim_tickers
+    description: One row per tracked ticker with company/sector reference data and derived price-history stats.
+    columns:
+      - name: ticker
+        tests: [not_null, unique]
+
+  - name: fct_daily_returns
+    description: Daily and cumulative returns plus 20/50/200-day simple moving averages, one row per ticker/trade_date.
+    columns:
+      - name: ticker
+        tests: [not_null]
+      - name: trade_date
+        tests: [not_null]
+      - name: daily_return_pct
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: -100
+              max_value: 1000
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ticker, trade_date]
+
+  - name: fct_volatility
+    description: Rolling 30-trading-day annualized volatility and a LOW/MEDIUM/HIGH risk tier, one row per ticker/trade_date.
+    columns:
+      - name: ticker
+        tests: [not_null]
+      - name: trade_date
+        tests: [not_null]
+      - name: risk_tier
+        tests:
+          - accepted_values:
+              values: ["LOW", "MEDIUM", "HIGH"]
+              quote: true
+              config:
+                where: "risk_tier is not null"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ticker, trade_date]

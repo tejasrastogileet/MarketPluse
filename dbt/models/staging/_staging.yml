@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_prices
+    description: One cleaned row per ticker/trade_date, deduped and type-cast from raw.stock_prices.
+    columns:
+      - name: ticker
+        tests: [not_null]
+      - name: trade_date
+        tests: [not_null]
+      - name: close_price
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: false
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ticker, trade_date]
+
+  - name: stg_macro
+    description: One cleaned row per series_id/obs_date, deduped and type-cast from raw.macro_indicators.
+    columns:
+      - name: series_id
+        tests: [not_null]
+      - name: obs_date
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [series_id, obs_date]
