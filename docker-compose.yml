@@ -1,0 +1,42 @@
+
+# This is the WAREHOUSE only (Postgres holding raw/staging/marts schemas).
+# Airflow has its own docker-compose (airflow/docker-compose.yaml) with its
+# own metadata database.
+#
+# Both compose files join the shared `market_net` network.
+# Create it once with: docker network create market_net
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: market_data_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-market_data}
+      POSTGRES_USER: ${POSTGRES_USER:-market_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-market_pass}
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'pg_isready -U "$${POSTGRES_USER:-market_user}" -d "$${POSTGRES_DB:-market_data}"'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - market_net
+
+networks:
+  market_net:
+    external: true
+
+volumes:
+  pgdata:
